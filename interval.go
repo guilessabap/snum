@@ -11,7 +11,7 @@ type interval struct {
 	rangeName    *string
 }
 
-func (intv *interval) GetNext() (*uint32, error) {
+func (intv *interval) GetNext() (uint32, error) {
 	numberRanges[*intv.rangeName].mutex.Lock()
 	defer numberRanges[*intv.rangeName].mutex.Unlock()
 
@@ -21,17 +21,17 @@ func (intv *interval) GetNext() (*uint32, error) {
 		if *intv.isRolling {
 			*intv.numberActual = *intv.numberFrom
 		} else {
-			return nil, fmt.Errorf("Interval \"%v\" has reached the end (%d)", *intv.name, *intv.numberTo)
+			return *new(uint32), fmt.Errorf("Interval \"%v\" has reached the end (%d)", *intv.name, *intv.numberTo)
 		}
 	} else {
 		*intv.numberActual++
 	}
-	return intv.numberActual, nil
+	return *intv.numberActual, nil
 
 }
 
-func (intv *interval) GetName() *string {
-	return intv.name
+func (intv *interval) GetName() string {
+	return *intv.name
 }
 
 func (intv *interval) Validate() error {
@@ -39,9 +39,9 @@ func (intv *interval) Validate() error {
 
 	_, found := numberRanges[*intv.rangeName].intervals[*intv.name]
 	if found {
-		return fmt.Errorf("Interval \"%v\" does already exist", *intv.GetName())
+		return fmt.Errorf("Interval \"%v\" does already exist", *intv.name)
 	}
 
-	err = checkName(*intv.GetName())
+	err = checkName(*intv.name)
 	return err
 }

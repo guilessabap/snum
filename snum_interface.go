@@ -13,12 +13,12 @@ type INumberRange interface {
 	CreateInterval(name string, numberFrom uint32, numberTo uint32, isRolling bool) (INumberRangeInterval, error)
 	GetInterval(name string) (INumberRangeInterval, error)
 	GetIntervals() []INumberRangeInterval
-	GetName() *string
+	GetName() string
 }
 
 type INumberRangeInterval interface {
-	GetNext() (*uint32, error)
-	GetName() *string
+	GetNext() (uint32, error)
+	GetName() string
 }
 
 func CreateNumberRange(name string) (INumberRange, error) {

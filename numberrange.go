@@ -59,16 +59,16 @@ func (nr *numberRange) GetIntervals() (retIntervals []INumberRangeInterval) {
 	return
 }
 
-func (nr *numberRange) GetName() *string {
-	return nr.name
+func (nr *numberRange) GetName() string {
+	return *nr.name
 }
 
 func (nr *numberRange) Validate() error {
-	_, found := numberRanges[*nr.GetName()]
+	_, found := numberRanges[*nr.name]
 	if found {
-		return fmt.Errorf("Number Range \"%v\" does already exist", *nr.GetName())
+		return fmt.Errorf("Number Range \"%v\" does already exist", *nr.name)
 	}
 
-	err := checkName(*nr.GetName())
+	err := checkName(*nr.name)
 	return err
 }
