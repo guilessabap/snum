@@ -37,11 +37,11 @@ func (intv *interval) GetName() *string {
 func (intv *interval) Validate() error {
 	var err error
 
-	nr, found := numberRanges[*intv.GetName()]
+	_, found := numberRanges[*intv.rangeName].intervals[*intv.name]
 	if found {
-		return fmt.Errorf("Number Range \"%v\" does already exist", *intv.GetName())
+		return fmt.Errorf("Interval \"%v\" does already exist", *intv.GetName())
 	}
 
-	err = checkName(*nr.GetName())
+	err = checkName(*intv.GetName())
 	return err
 }
